@@ -76,8 +76,8 @@ def get_node_version():
 
 def get_git_commit_hash(full):
     try:
-        file1 = open('git_commit_hash', 'r')
-        hash = file1.readline(5_000_000).strip()
+        with open('git_commit_hash', 'r') as file1:
+            hash = file1.readline(5_000_000).strip()
     except:
         hash = 'git_commit_hash-file-not-found'
 
