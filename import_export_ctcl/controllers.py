@@ -16,10 +16,10 @@ from party.controllers import party_import_from_xml_data
 from polling_location.models import KIND_OF_LOG_ENTRY_ADDRESS_PARSE_ERROR, \
     KIND_OF_LOG_ENTRY_API_END_POINT_CRASH, KIND_OF_LOG_ENTRY_BALLOT_RECEIVED, KIND_OF_LOG_ENTRY_NO_CONTESTS, \
     KIND_OF_LOG_ENTRY_NO_BALLOT_JSON, PollingLocationManager
-import requests
 import wevote_functions.admin
 from wevote_functions.functions import convert_we_vote_date_string_to_date, extract_state_code_from_address_string, \
     positive_value_exists
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -423,8 +423,7 @@ def retrieve_ctcl_ballot_items_for_one_voter_api(
     try:
         api_key = CTCL_API_KEY
         # Get the ballot info at this address
-        response = requests.get(
-            CTCL_VOTER_INFO_URL,
+        response = safe_requests.get(CTCL_VOTER_INFO_URL,
             headers=HEADERS_FOR_CTCL_API_CALL,
             params={
                 "key": api_key,
@@ -635,8 +634,7 @@ def retrieve_ctcl_ballot_items_from_polling_location_api(
         try:
             api_key = CTCL_API_KEY
             # Get the ballot info at this address
-            response = requests.get(
-                CTCL_VOTER_INFO_URL,
+            response = safe_requests.get(CTCL_VOTER_INFO_URL,
                 headers=HEADERS_FOR_CTCL_API_CALL,
                 params={
                     "key": api_key,
@@ -908,8 +906,7 @@ def retrieve_from_ctcl_api_election_query():
         }
         return results
 
-    response = requests.get(
-        CTCL_ELECTION_QUERY_URL,
+    response = safe_requests.get(CTCL_ELECTION_QUERY_URL,
         headers=HEADERS_FOR_CTCL_API_CALL,
         params={
             "key": CTCL_API_KEY,

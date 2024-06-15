@@ -3,8 +3,6 @@
 # -*- coding: UTF-8 -*-
 import json
 import re
-
-import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -31,6 +29,7 @@ from voter.models import voter_has_authority, VoterManager
 from voter_guide.controllers_possibility import organizations_found_on_url
 from wevote_functions.functions import convert_to_int, extract_website_from_url, get_voter_device_id, \
     get_maximum_number_to_retrieve_from_request, is_url_valid, positive_value_exists
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -236,7 +235,7 @@ def organization_index_view(request, organization_incoming_domain='', campaign_m
         req_url = 'https://wevote.us/main.name.html'
 
     verify_bool = not ('localhost' in organization_incoming_domain or '127.0.0.1' in organization_incoming_domain)
-    text = requests.get(req_url, verify=verify_bool).text
+    text = safe_requests.get(req_url, verify=verify_bool).text
     main_js = re.search(r"<body>(.*?)<\/body>", text)[1]
 
     template_values = {

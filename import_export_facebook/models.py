@@ -6,7 +6,6 @@ import json
 import re
 
 import facebook
-import requests
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -15,6 +14,7 @@ from config.base import get_environment_variable_default
 from email_outbound.models import SEND_STATUS_CHOICES, TO_BE_PROCESSED
 from exception.models import handle_exception, print_to_log
 from wevote_functions.functions import generate_random_string, positive_value_exists, convert_to_int
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -945,7 +945,7 @@ class FacebookManager(models.Manager):
             url = "https://graph.facebook.com/v11.0/{}/picture?height=256&access_token={}|{}&redirect=0".format(
                 person_id, app_id, app_secret)
             # print(url)
-            source = requests.get(url)
+            source = safe_requests.get(url)
             data = json.loads(source.text)
             # print(data)
             if 'error' in data:
