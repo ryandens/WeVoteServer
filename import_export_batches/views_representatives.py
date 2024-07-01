@@ -20,12 +20,12 @@ from exception.models import handle_exception
 from import_export_google_civic.controllers import REPRESENTATIVES_BY_ADDRESS_URL
 import json
 from polling_location.models import KIND_OF_LOG_ENTRY_REPRESENTATIVES_RECEIVED, PollingLocation, PollingLocationManager
-import random
 import requests
 from representative.models import RepresentativeManager
 from voter.models import voter_has_authority
 import wevote_functions.admin
 from wevote_functions.functions import convert_to_int, positive_value_exists, STATE_CODE_MAP
+import secrets
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -323,7 +323,7 @@ def retrieve_representatives_for_polling_locations_internal_view(
                 polling_location_query.exclude(Q(line1__isnull=True) | Q(line1__exact=''))
 
         # Randomly change the sort order, so we over time load different map points (before timeout)
-        random_sorting = random.randint(1, 5)
+        random_sorting = secrets.SystemRandom().randint(1, 5)
         if random_sorting == 1:
             # Ordering by "line1" creates a bit of (locational) random order
             polling_location_list = polling_location_query.order_by('line1')[:refresh_or_retrieve_limit]
