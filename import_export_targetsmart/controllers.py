@@ -46,7 +46,7 @@ def query_targetsmart_api_to_augment_email_list(email_list=[]):
             headers={"x-api-key": api_key},
             params={
                 "emails": emails_param,
-            })
+            }, timeout=60)
         json_from_targetsmart = json.loads(response.text)
 
         if 'message' in json_from_targetsmart:

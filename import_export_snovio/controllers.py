@@ -126,7 +126,7 @@ def get_access_token():
         'client_secret': SNOVIO_CLIENT_SECRET,
     }
     
-    res = requests.post('https://api.snov.io/v1/oauth/access_token', data=params)
+    res = requests.post('https://api.snov.io/v1/oauth/access_token', data=params, timeout=60)
     resText = res.text.encode('ascii', 'ignore')
     
     return json.loads(resText)['access_token']
@@ -157,7 +157,7 @@ def query_snovio_api_to_augment_email(email=''):
             data={
                 "access_token": get_access_token(),
                 "email": email,
-            })
+            }, timeout=60)
         json_from_snovio = json.loads(response.text)
 
         if 'errors' in json_from_snovio:

@@ -4,7 +4,7 @@ import requests
 
 def generate_background(politician):
     
-    image = Image.open(requests.get(politician.we_vote_hosted_profile_image_url_large, stream=True).raw)
+    image = Image.open(requests.get(politician.we_vote_hosted_profile_image_url_large, stream=True, timeout=60).raw)
     im_crop = image.crop((0,0,20,20))
     color = im_crop.resize((1,1),resample=Image.Resampling.NEAREST)
     pixel = list(color.convert('RGBA').getdata())

@@ -46,7 +46,7 @@ def analyze_remote_url(image_url_https):
 
     if image_url_valid:
         try:
-            response = requests.get(image_url_https)
+            response = requests.get(image_url_https, timeout=60)
             original_image = Image.open(BytesIO(response.content))
             image_format = original_image.format
             image = ImageOps.exif_transpose(original_image)

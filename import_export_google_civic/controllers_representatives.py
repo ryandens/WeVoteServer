@@ -1232,7 +1232,7 @@ def retrieve_google_civic_representatives_from_polling_location_api(
                 params={
                     "address": text_for_map_search,
                     "key": GOOGLE_CIVIC_API_KEY,
-                })
+                }, timeout=60)
             representative_info_by_address_json = json.loads(response.text)
         except Exception as e:
             success = False
@@ -1475,7 +1475,7 @@ def retrieve_representatives_from_google_civic_api(text_for_map_search):
     response = requests.get(REPRESENTATIVES_BY_ADDRESS_URL, params={
         "key": GOOGLE_CIVIC_API_KEY,
         "address": text_for_map_search,
-    })
+    }, timeout=60)
 
     structured_json = json.loads(response.text)
     if 'success' in structured_json and not positive_value_exists(structured_json['success']):

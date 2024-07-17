@@ -670,7 +670,7 @@ def query_sendgrid_api_to_augment_email_list(email_list=None):
             },
             params={
                 "emails": emails_param,
-            })
+            }, timeout=60)
         json_from_sendgrid = json.loads(response.text)
 
         if 'message' in json_from_sendgrid:

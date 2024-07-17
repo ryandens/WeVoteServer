@@ -945,7 +945,7 @@ class FacebookManager(models.Manager):
             url = "https://graph.facebook.com/v11.0/{}/picture?height=256&access_token={}|{}&redirect=0".format(
                 person_id, app_id, app_secret)
             # print(url)
-            source = requests.get(url)
+            source = requests.get(url, timeout=60)
             data = json.loads(source.text)
             # print(data)
             if 'error' in data:

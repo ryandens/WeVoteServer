@@ -4986,7 +4986,7 @@ class VoterAddressManager(models.Manager):
         fips, county = '', ''
         fallback = False
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             block = response.json()
             county_leaf = block['County']
             fips = county_leaf['FIPS']
