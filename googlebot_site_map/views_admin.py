@@ -16,6 +16,7 @@ from admin_tools.views import redirect_to_sign_in_page
 from googlebot_site_map.models import GooglebotRequest
 from politician.models import Politician
 from voter.models import voter_has_authority
+from security import safe_command
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -43,7 +44,7 @@ def log_request(request):
 
 def googlebot_reverse_dns(ip):
     run_cmd = 'host ' + ip
-    process = subprocess.run([run_cmd], shell=True, stdout=subprocess.PIPE)
+    process = safe_command.run(subprocess.run, [run_cmd], shell=True, stdout=subprocess.PIPE)
     output_raw = process.stdout
     host = output_raw.decode("utf-8")
     # print('host is: ' + host)

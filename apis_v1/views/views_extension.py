@@ -16,6 +16,7 @@ import wevote_functions.admin
 from config.base import get_environment_variable, get_environment_variable_default
 from exception.models import handle_exception
 from wevote_functions.functions import positive_value_exists
+from security import safe_command
 
 AWS_ACCESS_KEY_ID = get_environment_variable("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = get_environment_variable("AWS_SECRET_ACCESS_KEY")
@@ -205,7 +206,7 @@ def process_pdf_to_html(pdf_url, return_version):
             temp_path = get_environment_variable_default("PATH_FOR_TEMP_FILES", "/tmp")
             command = 'pdf2htmlEX --dest-dir ' + temp_path + ' ' + absolute_pdf_file
             # logger.error('pdf2htmlEX command: ' + command)
-            process = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = safe_command.run(subprocess.run, command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             output_from_subprocess = build_output_string(process)
             # logger.error('pdf2htmlEX subprocess.run output: ' + output_from_subprocess)
         except Exception as subprocess_run_error:
