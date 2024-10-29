@@ -9,13 +9,13 @@ from urllib.parse import quote
 
 import boto3
 import cloudscraper
-import requests
 from django.http import HttpResponse
 
 import wevote_functions.admin
 from config.base import get_environment_variable, get_environment_variable_default
 from exception.models import handle_exception
 from wevote_functions.functions import positive_value_exists
+from security import safe_requests
 
 AWS_ACCESS_KEY_ID = get_environment_variable("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = get_environment_variable("AWS_SECRET_ACCESS_KEY")
@@ -175,7 +175,7 @@ def process_pdf_to_html(pdf_url, return_version):
                 'Accept-Encoding': 'none',
                 'Accept-Language': 'en-US,en;q=0.8',
                 'Connection': 'keep-alive'}
-            r = requests.get(google_cached_pdf_url, headers)
+            r = safe_requests.get(google_cached_pdf_url, headers)
             # logger.error('pdf2htmlEX after requests.get: ' + google_cached_pdf_url)
             # skip saving the pdf file (since we don't have one), and write the final html file to the temp dir
             html_text_text = r.text

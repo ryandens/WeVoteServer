@@ -13,9 +13,9 @@ import json
 from polling_location.models import KIND_OF_LOG_ENTRY_ADDRESS_PARSE_ERROR, KIND_OF_LOG_ENTRY_API_END_POINT_CRASH, \
     KIND_OF_LOG_ENTRY_BALLOT_RECEIVED, KIND_OF_LOG_ENTRY_NO_CONTESTS, KIND_OF_LOG_ENTRY_NO_BALLOT_JSON, \
     PollingLocationManager
-import requests
 import wevote_functions.admin
 from wevote_functions.functions import positive_value_exists
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -96,7 +96,7 @@ def retrieve_from_vote_usa_api_election_query():
         }
         return results
 
-    response = requests.get(
+    response = safe_requests.get(
         VOTE_USA_ELECTION_QUERY_URL,
         headers=HEADERS_FOR_VOTE_USA_API_CALL,
         params={
@@ -182,7 +182,7 @@ def retrieve_vote_usa_ballot_items_for_one_voter_api(
     try:
         api_key = VOTE_USA_API_KEY
         # Get the ballot info at this address
-        response = requests.get(
+        response = safe_requests.get(
             VOTE_USA_VOTER_INFO_URL,
             headers=HEADERS_FOR_VOTE_USA_API_CALL,
             params={
@@ -443,7 +443,7 @@ def retrieve_vote_usa_ballot_items_from_polling_location_api(
         try:
             api_key = VOTE_USA_API_KEY
             # Get the ballot info at this address
-            response = requests.get(
+            response = safe_requests.get(
                 VOTE_USA_VOTER_INFO_URL,
                 headers=HEADERS_FOR_VOTE_USA_API_CALL,
                 params={

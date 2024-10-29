@@ -7,8 +7,8 @@ from io import BytesIO
 from PIL import Image, ImageOps
 from urllib.request import Request, urlopen
 import urllib
-import requests
 import wevote_functions.admin
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -46,7 +46,7 @@ def analyze_remote_url(image_url_https):
 
     if image_url_valid:
         try:
-            response = requests.get(image_url_https)
+            response = safe_requests.get(image_url_https)
             original_image = Image.open(BytesIO(response.content))
             image_format = original_image.format
             image = ImageOps.exif_transpose(original_image)
