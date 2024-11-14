@@ -43,7 +43,7 @@ def log_request(request):
 
 def googlebot_reverse_dns(ip):
     run_cmd = 'host ' + ip
-    process = subprocess.run([run_cmd], shell=True, stdout=subprocess.PIPE)
+    process = subprocess.run([run_cmd], shell=False, stdout=subprocess.PIPE)
     output_raw = process.stdout
     host = output_raw.decode("utf-8")
     # print('host is: ' + host)

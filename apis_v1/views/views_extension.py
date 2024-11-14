@@ -106,7 +106,7 @@ def process_pdf_to_html(pdf_url, return_version):
             command = 'pdf2htmlEX -v'
             # logger.error('pdf2htmlEX command: ' + command)
 
-            process = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            process = subprocess.run(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             output_from_subprocess = build_output_string(process)
 
             # logger.error('pdf2htmlEX version ' + output_from_subprocess)
@@ -205,7 +205,7 @@ def process_pdf_to_html(pdf_url, return_version):
             temp_path = get_environment_variable_default("PATH_FOR_TEMP_FILES", "/tmp")
             command = 'pdf2htmlEX --dest-dir ' + temp_path + ' ' + absolute_pdf_file
             # logger.error('pdf2htmlEX command: ' + command)
-            process = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.run(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             output_from_subprocess = build_output_string(process)
             # logger.error('pdf2htmlEX subprocess.run output: ' + output_from_subprocess)
         except Exception as subprocess_run_error:
