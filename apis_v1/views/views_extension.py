@@ -175,7 +175,7 @@ def process_pdf_to_html(pdf_url, return_version):
                 'Accept-Encoding': 'none',
                 'Accept-Language': 'en-US,en;q=0.8',
                 'Connection': 'keep-alive'}
-            r = requests.get(google_cached_pdf_url, headers)
+            r = requests.get(google_cached_pdf_url, headers, timeout=60)
             # logger.error('pdf2htmlEX after requests.get: ' + google_cached_pdf_url)
             # skip saving the pdf file (since we don't have one), and write the final html file to the temp dir
             html_text_text = r.text

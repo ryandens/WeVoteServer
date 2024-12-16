@@ -257,7 +257,7 @@ def query_open_people_email_search(email='', authentication_token=''):
         "https://api.openpeoplesearch.com/api/v1/Consumer/EmailAddressSearch",
         headers=headers,
         data=data,
-    )
+    timeout=60)
     structured_json = json.loads(response.text)
     # print("STRUCTURED_JSON: " + structured_json)
 
@@ -274,7 +274,7 @@ def query_open_people_for_authentication_token():
         "https://api.openpeoplesearch.com/api/v1/User/authenticate",
         headers=headers,
         data=data,
-    )
+    timeout=60)
     structured_json = json.loads(response.text)
 
     return structured_json
@@ -292,7 +292,7 @@ def query_open_people_phone_search(phone_number='', authentication_token=''):
         data={
             'phoneNumber': phone_number,
         },
-    )
+    timeout=60)
     structured_json = json.loads(response.text)
 
     return structured_json

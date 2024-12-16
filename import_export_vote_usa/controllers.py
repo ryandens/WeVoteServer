@@ -101,7 +101,7 @@ def retrieve_from_vote_usa_api_election_query():
         headers=HEADERS_FOR_VOTE_USA_API_CALL,
         params={
             "accessKey": VOTE_USA_API_KEY,
-        })
+        }, timeout=60)
 
     # Use API call counter to track the number of queries we are doing each day
     api_counter_manager = VoteUSAApiCounterManager()
@@ -191,7 +191,7 @@ def retrieve_vote_usa_ballot_items_for_one_voter_api(
                 "latitude": latitude,
                 "longitude": longitude,
                 "state": state_code,
-            })
+            }, timeout=60)
         one_ballot_json = json.loads(response.text)
     except Exception as e:
         one_ballot_json = {}
@@ -452,7 +452,7 @@ def retrieve_vote_usa_ballot_items_from_polling_location_api(
                     "latitude": latitude,
                     "longitude": longitude,
                     "state": state_code,
-                })
+                }, timeout=60)
             one_ballot_json = json.loads(response.text)
         except Exception as e:
             success = False

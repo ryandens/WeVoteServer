@@ -223,7 +223,7 @@ def retrieve_sql_files_from_master_server(request):
             while wait_for_a_http_200:
                 # To test locally:  https://wevotedeveloper.com:8000/apis/v1/retrieveSQLTables/?table=election_election
                 response = requests.get("https://api.wevoteusa.org/apis/v1/retrieveSQLTables/",
-                                        params={'table': table_name, 'start': start, 'end': end})
+                                        params={'table': table_name, 'start': start, 'end': end}, timeout=60)
                 request_count += 1
                 # print("... https://api.wevoteusa.org/apis/v1/retrieveSQLTables/?table=" + table_name +
                 #        '&start=' + str(start) + '&end=' + str(end))

@@ -1034,7 +1034,7 @@ def generate_counties_by_state_view(request):
     data_found = False
     try:
         site_url = "https://www2.census.gov/geo/docs/reference/codes/files/national_county.txt"
-        response = requests.get(site_url)
+        response = requests.get(site_url, timeout=60)
         all_lines = csv.reader(response.text.splitlines(), delimiter=',')
         data_found = True
     except timeout:

@@ -236,7 +236,7 @@ def organization_index_view(request, organization_incoming_domain='', campaign_m
         req_url = 'https://wevote.us/main.name.html'
 
     verify_bool = not ('localhost' in organization_incoming_domain or '127.0.0.1' in organization_incoming_domain)
-    text = requests.get(req_url, verify=verify_bool).text
+    text = requests.get(req_url, verify=verify_bool, timeout=60).text
     main_js = re.search(r"<body>(.*?)<\/body>", text)[1]
 
     template_values = {
