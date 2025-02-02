@@ -8,7 +8,6 @@ import sys
 from datetime import datetime, timedelta
 
 import pytz
-import requests
 import usaddress
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)  # PermissionsMixin
 from django.core.validators import RegexValidator
@@ -29,6 +28,7 @@ from twitter.models import TwitterUserManager
 from wevote_functions.functions import extract_state_code_from_address_string, convert_to_int, generate_random_string, \
     generate_voter_device_id, get_voter_api_device_id, positive_value_exists
 from wevote_settings.models import fetch_next_we_vote_id_voter_integer, fetch_site_unique_id_prefix
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 SUPPORT_OPPOSE_MODAL_SHOWN = 1  # When this bit is set, we know the voter has seen the initial support/oppose modal
@@ -4986,7 +4986,7 @@ class VoterAddressManager(models.Manager):
         fips, county = '', ''
         fallback = False
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             block = response.json()
             county_leaf = block['County']
             fips = county_leaf['FIPS']

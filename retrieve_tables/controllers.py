@@ -6,12 +6,12 @@ import time
 from io import StringIO
 
 import psycopg2
-import requests
 from django.http import HttpResponse
 
 import wevote_functions.admin
 from config.base import get_environment_variable
 from wevote_functions.functions import positive_value_exists
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -222,7 +222,7 @@ def retrieve_sql_files_from_master_server(request):
 
             while wait_for_a_http_200:
                 # To test locally:  https://wevotedeveloper.com:8000/apis/v1/retrieveSQLTables/?table=election_election
-                response = requests.get("https://api.wevoteusa.org/apis/v1/retrieveSQLTables/",
+                response = safe_requests.get("https://api.wevoteusa.org/apis/v1/retrieveSQLTables/",
                                         params={'table': table_name, 'start': start, 'end': end})
                 request_count += 1
                 # print("... https://api.wevoteusa.org/apis/v1/retrieveSQLTables/?table=" + table_name +

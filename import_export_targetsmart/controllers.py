@@ -6,9 +6,9 @@ from .models import TargetSmartApiCounterManager
 from config.base import get_environment_variable
 from exception.models import handle_exception, handle_record_found_more_than_one_exception
 import json
-import requests
 import wevote_functions.admin
 from wevote_functions.functions import positive_value_exists
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -41,7 +41,7 @@ def query_targetsmart_api_to_augment_email_list(email_list=[]):
         api_key = TARGETSMART_API_KEY
         emails_param = ",".join(email_list)
         # Get the ballot info at this address
-        response = requests.get(
+        response = safe_requests.get(
             TARGETSMART_EMAIL_SEARCH_URL,
             headers={"x-api-key": api_key},
             params={
