@@ -49,11 +49,11 @@ from polling_location.models import KIND_OF_LOG_ENTRY_BALLOT_RECEIVED, KIND_OF_L
     MAP_POINTS_RETRIEVED_EACH_BATCH_CHUNK, PollingLocation, PollingLocationManager
 from position.models import POSITION
 import random
-import requests
 from voter.models import voter_has_authority
 from voter_guide.models import ORGANIZATION_WORD
 import wevote_functions.admin
 from wevote_functions.functions import convert_to_int, positive_value_exists, STATE_CODE_MAP
+from security import safe_requests
 
 logger = wevote_functions.admin.get_logger(__name__)
 
@@ -315,7 +315,7 @@ def batch_list_process_view(request):
                 #     "address": text_for_map_search,
                 #     "electionId": incoming_google_civic_election_id,
                 # })
-                response = requests.get(batch_uri)
+                response = safe_requests.get(batch_uri)
                 structured_json = json.loads(response.text)
 
                 if "api/contains" in batch_uri:

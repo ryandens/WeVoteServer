@@ -14,7 +14,6 @@ from polling_location.models import KIND_OF_LOG_ENTRY_ADDRESS_PARSE_ERROR, KIND_
     KIND_OF_LOG_ENTRY_NO_OFFICES_HELD, KIND_OF_LOG_ENTRY_RATE_LIMIT_ERROR, \
     KIND_OF_LOG_ENTRY_REPRESENTATIVES_RECEIVED, PollingLocationManager
 from representative.models import RepresentativeManager
-import requests
 from wevote_functions.functions import convert_district_scope_to_ballotpedia_race_office_level, \
     convert_level_to_race_office_level, convert_state_text_to_state_code, convert_to_int, \
     extract_district_id_label_when_district_id_exists_from_ocd_id, extract_district_id_from_ocd_division_id, \
@@ -22,6 +21,7 @@ from wevote_functions.functions import convert_district_scope_to_ballotpedia_rac
     extract_state_code_from_address_string, extract_state_from_ocd_division_id, \
     extract_twitter_handle_from_text_string, extract_vote_usa_measure_id, extract_vote_usa_office_id, \
     is_voter_device_id_valid, logger, positive_value_exists, STATE_CODE_MAP
+from security import safe_requests
 
 GEOCODE_TIMEOUT = 10
 GOOGLE_CIVIC_API_KEY = get_environment_variable("GOOGLE_CIVIC_API_KEY")
@@ -1227,7 +1227,7 @@ def retrieve_google_civic_representatives_from_polling_location_api(
 
         try:
             # Get representatives info for this address
-            response = requests.get(
+            response = safe_requests.get(
                 REPRESENTATIVES_BY_ADDRESS_URL,
                 params={
                     "address": text_for_map_search,
@@ -1472,7 +1472,7 @@ def retrieve_representatives_from_google_civic_api(text_for_map_search):
     # return results
 
     # print("retrieving one ballot for " + str(text_for_map_search))
-    response = requests.get(REPRESENTATIVES_BY_ADDRESS_URL, params={
+    response = safe_requests.get(REPRESENTATIVES_BY_ADDRESS_URL, params={
         "key": GOOGLE_CIVIC_API_KEY,
         "address": text_for_map_search,
     })
